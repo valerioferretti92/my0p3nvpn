@@ -13,7 +13,6 @@ fi
 mkdir -p ../openvpn-conf
 mkdir -p ../user-profiles
 
-docker-compose run --rm openvpn ovpn_genconfig -u udp://$DOMAIN
-docker-compose run --rm openvpn ovpn_initpki
-sudo chown -R $(whoami): ../openvpn-conf
+sudo docker-compose run --rm openvpn ovpn_genconfig -u udp://$DOMAIN
+sudo docker-compose run --rm openvpn ovpn_initpki
 

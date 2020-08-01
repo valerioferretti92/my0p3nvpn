@@ -18,20 +18,27 @@ then
     exit
 fi
 
-# Install and configure project dependencies
+echo "[runme.sh]: Installing and configure project dependencies"
 sudo apt -y update
-sudo apt -y install docker.io
-sudo usermod -a -G docker $(whoami)
-sudo newgrp docker
-sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo apt -y upgrade
 
-# Configures openvpn server
+sudo apt -y install docker.io
+sudo systemctl start docker
+
+DOCKER_COMPOSE_FILE=/usr/local/bin/docker-compose
+if [ ! -f "$DOCKER_COMPOSE_FILE" ]
+then
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" \
+            -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+fi
+
+echo "[runme.sh]: Configuring openvpn server"
 ./configure.sh $(hostname)
 
-# Register user account
+echo "[runme.sh]: Registering user account"
 ./register-account.sh $ACCOUNT
 
-# Start openvpn container
+echo "[runme.sh]: Starting openvpn container"
 ./start.sh
