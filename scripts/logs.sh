@@ -2,5 +2,5 @@
 
 #!/bin/bash
 
-docker logs openvpn --follow
+sudo docker logs openvpn --follow
 

@@ -10,5 +10,5 @@ then
     exit
 fi
 
-docker-compose run --rm openvpn ovpn_revokeclient $ACCOUNT remove
+sudo docker-compose run --rm openvpn ovpn_revokeclient $ACCOUNT remove
 rm ../user-profiles/$ACCOUNT.ovpn
