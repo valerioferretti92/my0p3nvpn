@@ -1,3 +1,6 @@
+# Removes user account and its all related files
+# $1: username of the account to revmoved
+
 #!/bin/bash
 
 ACCOUNT=$1

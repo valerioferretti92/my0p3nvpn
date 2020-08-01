@@ -1,4 +1,6 @@
+# Streams openvpn container's log
+
 #!/bin/bash
 
-docker logs $(docker ps -q) --follow
+docker logs openvpn --follow
 

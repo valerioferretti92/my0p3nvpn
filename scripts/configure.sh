@@ -1,3 +1,6 @@
+# Creates openvpn configuration and initializes certificate authority
+# $1: openvpn server's domain name / public IP address
+
 #!/bin/bash
 
 DOMAIN=$1

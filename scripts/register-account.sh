@@ -1,3 +1,6 @@
+# Registers new user account to the openvpn server and sends .ovpn file to "valerio.ferretti92@gmail.com"
+# $1: username of the account to be registered
+
 #!/bin/bash
 
 ACCOUNT=$1

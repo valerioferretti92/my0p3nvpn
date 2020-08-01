@@ -9,4 +9,4 @@ services:
      - "1194:1194/udp"
     restart: always
     volumes:
-     - ../openvpn-conf:/etc/openvpn
+     - ../openvpn:/etc/openvpn
