@@ -12,3 +12,4 @@ fi
 
 sudo docker-compose run --rm openvpn easyrsa build-client-full $ACCOUNT
 sudo docker-compose run --rm openvpn ovpn_getclient $ACCOUNT > ../user-profiles/$ACCOUNT.ovpn
+./send-email.sh $ACCOUNT.ovpn
