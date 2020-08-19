@@ -2,6 +2,7 @@
 # $1: openvpn server's domain name / public IP address
 
 #!/bin/bash
+set -e
 
 DOMAIN=$1
 if [ -z "$DOMAIN" ]

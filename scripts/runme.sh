@@ -10,6 +10,7 @@
 # $2: username of the account to be registered
 
 #!/bin/bash
+set -e
 
 BLUE='\033[0;34m'
 BOLD='\033[1m'
@@ -22,16 +23,24 @@ then
     exit
 fi
 
-echo -e "${BLUE}${BOLD}[runme.sh]: Installing and configure project dependencies${NONE}"
-echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BLUE}Updating and upgrading system${NONE}"
+print_section_title() {
+    echo -e "${BLUE}${BOLD}[runme.sh]: $1${NONE}"
+}
+
+print_subsection_title() {
+    echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BOLD}$1${NONE}"
+}
+
+print_section_title "Installing and configure project dependencies"
+print_subsection_title "Updating and upgrading system"
 sudo apt -y update
 sudo apt -y upgrade
 
-echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BLUE}Installing docker.io${NONE}"
+print_subsection_title "Installing docker.io"
 sudo apt -y install docker.io
 sudo systemctl start docker
 
-echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BLUE}Installing docker-compose${NONE}"
+print_subsection_title "Installing docker-compose"
 DOCKER_COMPOSE_FILE=/usr/local/bin/docker-compose
 if [ ! -f "$DOCKER_COMPOSE_FILE" ]
 then
@@ -41,11 +50,11 @@ then
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 fi
 
-echo -e "${BLUE}${BOLD}[runme.sh]: Configuring openvpn server${NONE}"
+print_section_title "Configuring openvpn server"
 ./configure.sh $(hostname)
 
-echo -e "${BLUE}${BOLD}[runme.sh]: Registering user account${NONE}"
+print_section_title "Registering user account"
 ./register-account.sh $ACCOUNT
 
-echo -e "${BLUE}${BOLD}[runme.sh]: Starting openvpn container${NONE}"
+print_section_title "Starting openvpn container"
 ./start.sh

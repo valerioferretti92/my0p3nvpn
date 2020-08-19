@@ -2,6 +2,7 @@
 # $1: username of the account to be registered
 
 #!/bin/bash
+set -e
 
 if [ -z "$1" ]
 then
@@ -28,13 +29,9 @@ sed -i -e "s/{ATTACHMENT}/$(cat $FILEPATH | base64 -w 0)/g" template-data.txt
 echo -e "\nTEMPLATE DATA:"
 cat template-data.txt
 
-TEMPLATE_DATA_BASE64=$(cat template-data.txt | base64 -w 0)
-echo -e "\nTEMPLATE DATA BASE64:"
-echo "$TEMPLATE_DATA_BASE64"
-
 TEMPLATE='{"Data": "{TEMPLATE_DATA}"}'
 echo $TEMPLATE >> template.txt
-sed -i -e "s/{TEMPLATE_DATA}/$TEMPLATE_DATA_BASE64/g" template.txt
+sed -i -e "s/{TEMPLATE_DATA}/$(cat template-data.txt | base64 -w 0)/g" template.txt
 echo -e "\nTEMPLATE:"
 cat template.txt
 

@@ -2,6 +2,7 @@
 # $1: username of the account to be registered
 
 #!/bin/bash
+set -e
 
 ACCOUNT=$1
 if [ -z "$ACCOUNT" ]
