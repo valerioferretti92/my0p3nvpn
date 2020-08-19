@@ -16,7 +16,7 @@ BOLD='\033[1m'
 NONE='\033[00m'
 
 ACCOUNT=$1
-if [-z "$ACCOUNT" ]
+if [ -z "$ACCOUNT" ]
 then
     echo "Enter username of the account to be registered as \$1"
     exit
