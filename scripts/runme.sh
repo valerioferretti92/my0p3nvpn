@@ -11,6 +11,10 @@
 
 #!/bin/bash
 
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NONE='\033[00m'
+
 ACCOUNT=$1
 if [-z "$ACCOUNT" ]
 then
@@ -18,13 +22,16 @@ then
     exit
 fi
 
-echo "[runme.sh]: Installing and configure project dependencies"
+echo -e "${BLUE}${BOLD}[runme.sh]: Installing and configure project dependencies${NONE}"
+echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BLUE}Updating and upgrading system${NONE}"
 sudo apt -y update
 sudo apt -y upgrade
 
+echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BLUE}Installing docker.io${NONE}"
 sudo apt -y install docker.io
 sudo systemctl start docker
 
+echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BLUE}Installing docker-compose${NONE}"
 DOCKER_COMPOSE_FILE=/usr/local/bin/docker-compose
 if [ ! -f "$DOCKER_COMPOSE_FILE" ]
 then
@@ -34,11 +41,11 @@ then
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 fi
 
-echo "[runme.sh]: Configuring openvpn server"
+echo -e "${BLUE}${BOLD}[runme.sh]: Configuring openvpn server${NONE}"
 ./configure.sh $(hostname)
 
-echo "[runme.sh]: Registering user account"
+echo -e "${BLUE}${BOLD}[runme.sh]: Registering user account${NONE}"
 ./register-account.sh $ACCOUNT
 
-echo "[runme.sh]: Starting openvpn container"
+echo -e "${BLUE}${BOLD}[runme.sh]: Starting openvpn container${NONE}"
 ./start.sh

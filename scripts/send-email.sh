@@ -9,8 +9,8 @@ then
     exit
 fi
 
-FILENAME=$1
-echo "Sending \"$FILENAME\" as email attachment..."
+FILEPATH=$1
+echo "Sending \"$(basename $FILEPATH)\" as email attachment..."
 
 FROM=my0p3nvpn@gmail.com
 TO=valerio.ferretti92@gmail.com
@@ -23,8 +23,8 @@ sed -i -e "s/{FROM}/$FROM/g" template-data.txt
 sed -i -e "s/{TO}/$TO/g" template-data.txt
 sed -i -e "s/{SUBJECT}/$SUBJECT/g" template-data.txt
 sed -i -e "s/{BODY}/$(echo "$BODY" | base64 -w 0)/g" template-data.txt
-sed -i -e "s/{FILENAME}/$FILENAME/g" template-data.txt
-sed -i -e "s/{ATTACHMENT}/$(cat ../user-profiles/$FILENAME | base64 -w 0)/g" template-data.txt
+sed -i -e "s/{FILENAME}/$(basename $FILEPATH)/g" template-data.txt
+sed -i -e "s/{ATTACHMENT}/$(cat $FILEPATH | base64 -w 0)/g" template-data.txt
 echo -e "\nTEMPLATE DATA:"
 cat template-data.txt
 
