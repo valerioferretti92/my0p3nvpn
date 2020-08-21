@@ -59,12 +59,13 @@ tar -zxvf /tmp/aws.tar.gz --directory ~
 rm /tmp/aws.tar.gz
 
 print_subsection_title "Installing AWS CLI"
+sudo apt -y install unzip
 AWS_CLI_FILE=/usr/local/bin/aws
 if [ ! -f "$AWS_CLI_FILE" ]
 then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
     unzip /tmp/awscliv2.zip -d /tmp
-    sudo ./tmp/aws/install
+    sudo /tmp/aws/install
 fi
 
 print_section_title "Configuring openvpn server"
