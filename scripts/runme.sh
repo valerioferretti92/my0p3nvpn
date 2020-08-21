@@ -50,11 +50,30 @@ then
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 fi
 
+print_subsection_title "Setting up AWS credentials"
+openssl enc -nosalt -aes-256-cbc -pbkdf2 -iter 100000 -d \
+    -in ../resources/aws.tar.gz.encrypted \
+    -out /tmp/aws.tar.gz \
+    -base64
+tar -zxvf /tmp/aws.tar.gz --directory ~
+rm /tmp/aws.tar.gz
+
+print_subsection_title "Installing AWS CLI"
+AWS_CLI_FILE=/usr/local/bin/aws
+if [ ! -f "$AWS_CLI_FILE" ]
+then
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+    unzip /tmp/awscliv2.zip -d /tmp
+    sudo ./tmp/aws/install
+fi
+
 print_section_title "Configuring openvpn server"
 ./configure.sh $(hostname)
 
 print_section_title "Registering user account"
 ./register-account.sh $ACCOUNT
+print_subsection_title "Sending credential file by email"
+./send-email.sh ../user-profiles/$ACCOUNT.ovpn
 
 print_section_title "Starting openvpn container"
 ./start.sh

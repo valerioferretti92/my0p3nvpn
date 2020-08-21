@@ -10,32 +10,18 @@ then
     exit
 fi
 
-FILEPATH=$1
-echo "Sending \"$(basename $FILEPATH)\" as email attachment..."
-
 FROM=my0p3nvpn@gmail.com
 TO=valerio.ferretti92@gmail.com
 SUBJECT="myopenvpn registration"
 BODY='<html><head></head><body><h3>Hello Valerio,</h3><p>the setup of your new user was completed successfully. It is time for you to enjoy your own (and long awaited) VPN server!</p><p>Have fun and keep on learning :-)</p></body></html>'
+FILEPATH=$1
 
-TEMPLATE_DATA='From: {FROM}\nTo: {TO}\nSubject: {SUBJECT}\nMIME-Version: 1.0\nContent-type: Multipart/Mixed; boundary="NextPart"\n\n--NextPart\nContent-Type: text/html\nContent-Transfer-Encoding: base64\n\n{BODY}\n\n--NextPart\nContent-Type: text/plain;\nContent-Disposition: attachment; filename="{FILENAME}"\nContent-Transfer-Encoding: base64\n\n{ATTACHMENT}\n\n--NextPart--'
-echo -e $TEMPLATE_DATA >> template-data.txt
-sed -i -e "s/{FROM}/$FROM/g" template-data.txt
-sed -i -e "s/{TO}/$TO/g" template-data.txt
-sed -i -e "s/{SUBJECT}/$SUBJECT/g" template-data.txt
-sed -i -e "s/{BODY}/$(echo "$BODY" | base64 -w 0)/g" template-data.txt
-sed -i -e "s/{FILENAME}/$(basename $FILEPATH)/g" template-data.txt
-sed -i -e "s/{ATTACHMENT}/$(cat $FILEPATH | base64 -w 0)/g" template-data.txt
-echo -e "\nTEMPLATE DATA:"
-cat template-data.txt
+echo "Sending \"$(basename $FILEPATH)\" as email attachment..."
 
-TEMPLATE='{"Data": "{TEMPLATE_DATA}"}'
-echo $TEMPLATE >> template.txt
-sed -i -e "s/{TEMPLATE_DATA}/$(cat template-data.txt | base64 -w 0)/g" template.txt
-echo -e "\nTEMPLATE:"
-cat template.txt
+RAW_EMAIL_DATA="From: $FROM\nTo: $TO\nSubject: $SUBJECT\nMIME-Version: 1.0\nContent-type: Multipart/Mixed; boundary=\"NextPart\"\n\n--NextPart\nContent-Type: text/html\nContent-Transfer-Encoding: base64\n\n$(echo "$BODY" | base64 -w 0)\n\n--NextPart\nContent-Type: text/plain;\nContent-Disposition: attachment; filename=\"$(basename $FILEPATH)\"\nContent-Transfer-Encoding: base64\n\n$(cat $FILEPATH | base64 -w 0)\n\n--NextPart--"
+echo -e "\nRAW EMAIL DATA (before base64 encoding):"
+echo -e $RAW_EMAIL_DATA
+echo "{\"Data\": \"$(echo -e $RAW_EMAIL_DATA | base64 -w 0)\"}" >> rawemail.txt
 
-aws ses send-raw-email --raw-message file://template.txt --region us-east-1
-
-rm template-data.txt
-rm template.txt
+aws ses send-raw-email --raw-message file://rawemail.txt --region us-east-1
+rm rawemail.txt
