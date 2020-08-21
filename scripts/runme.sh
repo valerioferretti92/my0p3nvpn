@@ -64,7 +64,7 @@ AWS_CLI_FILE=/usr/local/bin/aws
 if [ ! -f "$AWS_CLI_FILE" ]
 then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
-    unzip /tmp/awscliv2.zip -d /tmp
+    unzip -q /tmp/awscliv2.zip -d /tmp
     sudo /tmp/aws/install
 fi
 
