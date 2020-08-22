@@ -13,17 +13,18 @@
 #!/bin/bash
 set -e
 
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-NONE='\033[00m'
-
-ACCOUNT=$1
-EMAIL=$2
-if [ -z "$ACCOUNT" ] || [ -z "$EMAIL" ]
+if [ -z "$1" ] || [ -z "$2" ]
 then
     echo "Enter new user's username and email as \$1 and \$2"
     exit
 fi
+
+ACCOUNT=$1
+EMAIL=$2
+
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NONE='\033[00m'
 
 print_section_title() {
     echo -e "${BLUE}${BOLD}[runme.sh]: $1${NONE}"

@@ -4,12 +4,13 @@
 #!/bin/bash
 set -e
 
-DOMAIN=$1
-if [ -z "$DOMAIN" ]
+if [ -z "$1" ]
 then
     echo "Enter domain name or IP address as \$1"
     exit
 fi
+
+DOMAIN=$1
 
 mkdir -p ../openvpn-conf
 mkdir -p ../user-profiles
