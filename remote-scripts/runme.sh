@@ -1,7 +1,6 @@
 # Installs and configures project dependencies
 #  - docker
 #  - docker-compose
-#  - set AWS role
 #  - install AWS CLI
 #  - add default user to docker group
 # Configures openvpn server
@@ -52,9 +51,6 @@ then
     sudo chmod +x /usr/local/bin/docker-compose
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 fi
-
-print_subsection_title "Setting up AWS role"
-./setup-aws-role.sh
 
 print_subsection_title "Installing AWS CLI"
 sudo apt -y install unzip

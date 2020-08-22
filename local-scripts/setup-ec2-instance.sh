@@ -2,10 +2,14 @@
 
 set -e
 
-ROLE=$(aws iam list-roles | grep my0p3nvpn-role | cat)
-INSTANCE_PROFILE=$(aws iam list-instance-profiles | grep my0p3nvpn-instance-profile | cat)
+KEY_PAIR_NAME=my0p3nvpn
+ROLE=my0p3nvpn-role
+INSTANCE_PROFILE=my0p3nvpn-instance-profile
 
-if [ -z "$ROLE" ] && [ -z "$INSTANCE_PROFILE" ];
+ROLE_CHECK=$(aws iam list-roles | grep $ROLE | cat)
+INSTANCE_PROFILE_CHECK=$(aws iam list-instance-profiles | grep $INSTANCE_PROFILE | cat)
+
+if [ -z "$ROLE_CHECK" ] && [ -z "$INSTANCE_PROFILE_CHECK" ];
 then
     echo "Creating both AWS role and instance profile"
     aws iam create-role \
@@ -22,7 +26,7 @@ then
     exit
 fi
 
-if [ -z "$ROLE" ] && [ -n "$INSTANCE_PROFILE" ];
+if [ -z "$ROLE_CHECK" ] && [ -n "$INSTANCE_PROFILE_CHECK" ];
 then
     echo "Creating AWS role"
     aws iam create-role \
@@ -37,7 +41,7 @@ then
     exit
 fi
 
-if [ -n "$ROLE" ] && [ -z "$INSTANCE_PROFILE" ];
+if [ -n "$ROLE_CHECK" ] && [ -z "$INSTANCE_PROFILE_CHECK" ];
 then
     echo "Creating AWS instance profile"
     aws iam put-role-policy \
