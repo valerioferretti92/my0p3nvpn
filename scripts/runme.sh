@@ -1,6 +1,8 @@
 # Installs and configures project dependencies
 #  - docker
 #  - docker-compose
+#  - set AWS role
+#  - install AWS CLI
 #  - add default user to docker group
 # Configures openvpn server
 # Adds user account
@@ -17,9 +19,10 @@ BOLD='\033[1m'
 NONE='\033[00m'
 
 ACCOUNT=$1
-if [ -z "$ACCOUNT" ]
+EMAIL=$2
+if [ -z "$ACCOUNT" ] || [ -z "$EMAIL" ]
 then
-    echo "Enter username of the account to be registered as \$1"
+    echo "Enter new user's username and email as \$1 and \$2"
     exit
 fi
 
@@ -50,13 +53,8 @@ then
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 fi
 
-print_subsection_title "Setting up AWS credentials"
-openssl enc -nosalt -aes-256-cbc -pbkdf2 -iter 100000 -d \
-    -in ../resources/aws.tar.gz.encrypted \
-    -out /tmp/aws.tar.gz \
-    -base64
-tar -zxvf /tmp/aws.tar.gz --directory ~
-rm /tmp/aws.tar.gz
+print_subsection_title "Setting up AWS role"
+./setup-aws-role.sh
 
 print_subsection_title "Installing AWS CLI"
 sudo apt -y install unzip
@@ -74,7 +72,7 @@ print_section_title "Configuring openvpn server"
 print_section_title "Registering user account"
 ./register-account.sh $ACCOUNT
 print_subsection_title "Sending credential file by email"
-./send-email.sh ../user-profiles/$ACCOUNT.ovpn
+./send-email.sh $EMAIL ../user-profiles/$ACCOUNT.ovpn
 
 print_section_title "Starting openvpn container"
 ./start.sh
