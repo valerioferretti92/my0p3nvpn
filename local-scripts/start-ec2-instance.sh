@@ -33,5 +33,6 @@ INSTANCE_PUBLIC_IP=$(cat instance-details.json | jq -r '.Reservations[0].Instanc
 echo "INSTANCE_PUBLIC_IP: $INSTANCE_PUBLIC_IP"
 rm instance-details.json
 
+rm ~/.ssh/known_hosts
 echo "The machine is ready to be sshed into!"
-echo "Command: ssh ubuntu@$INSTANCE_PUBLIC_IP -i ~/.aws/privatekeys/my0p3nvpn.pem"
+echo "Command: ssh ubuntu@$INSTANCE_PUBLIC_IP -i ~/.aws/privatekeys/$KEY_PAIR_NAME.pem"

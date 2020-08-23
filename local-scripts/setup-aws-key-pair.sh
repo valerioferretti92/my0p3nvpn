@@ -14,6 +14,7 @@ if [ -z "$KEY_PAIR_CHECK" ];
 then
     mkdir -p ~/.aws/privatekeys/
     aws ec2 create-key-pair --key-name $KEY_PAIR_NAME --query 'KeyMaterial' --output text > ~/.aws/privatekeys/$KEY_PAIR_NAME.pem
+    chmod 600 ~/.aws/privatekeys/$KEY_PAIR_NAME.pem
     exit
 fi
 

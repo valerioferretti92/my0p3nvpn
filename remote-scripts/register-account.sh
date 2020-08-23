@@ -14,3 +14,4 @@ ACCOUNT=$1
 
 sudo docker-compose run --rm openvpn easyrsa build-client-full $ACCOUNT
 sudo docker-compose run --rm openvpn ovpn_getclient $ACCOUNT > ../user-profiles/$ACCOUNT.ovpn
+sed -i "s/$(hostname)/$(curl -s http://checkip.amazonaws.com)/g" ../user-profiles/$ACCOUNT.ovpn
