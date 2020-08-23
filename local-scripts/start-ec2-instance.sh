@@ -22,6 +22,7 @@ aws ec2 run-instances \
     --iam-instance-profile Name="$INSTANCE_PROFILE_NAME" \
     --key-name $KEY_PAIR_NAME \
     --security-groups $SECURITY_GROUP_NAME \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=name,Value=my0p3nvpn-instance}]' \
     --region $REGION >> instance-details.json
 INSTANCE_ID=$(cat instance-details.json | jq -r '.Instances[0].InstanceId')
 echo "INSTANCE_ID: $INSTANCE_ID"
