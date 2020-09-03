@@ -24,11 +24,23 @@ BOLD='\033[1m'
 NONE='\033[00m'
 
 print_section_title() {
-    echo -e "${BLUE}${BOLD}[runme.sh]: $1${NONE}"
+    if [[ "$OSTYPE" == "linux-gnu"* ]];
+    then
+        echo -e "${BLUE}${BOLD}[runme.sh]: $1${NONE}"
+    elif [[ "$OSTYPE" == "darwin"* ]];
+    then
+        echo "${BLUE}${BOLD}[runme.sh]: $1${NONE}"
+    fi
 }
 
 print_subsection_title() {
-    echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BOLD}$1${NONE}"
+    if [[ "$OSTYPE" == "linux-gnu"* ]];
+    then
+        echo -e "${BLUE}${BOLD}[runme.sh]:${NONE} ${BOLD}$1${NONE}"
+    elif [[ "$OSTYPE" == "darwin"* ]];
+    then
+        echo "${BLUE}${BOLD}[runme.sh]:${NONE} ${BOLD}$1${NONE}"
+    fi
 }
 
 print_section_title "Setting up AWS environment"

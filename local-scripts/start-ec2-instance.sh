@@ -23,12 +23,13 @@ aws ec2 run-instances \
     --key-name $KEY_PAIR_NAME \
     --security-groups $SECURITY_GROUP_NAME \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=my0p3nvpn-instance}]' \
-    --region $REGION >> instance-details.json
+    --region $REGION \
+    --profile my0p3nvpn >> instance-details.json
 INSTANCE_ID=$(cat instance-details.json | jq -r '.Instances[0].InstanceId')
 echo "INSTANCE_ID: $INSTANCE_ID"
 rm instance-details.json
 
-aws ec2 describe-instances --instance-ids $INSTANCE_ID >> instance-details.json
+aws ec2 describe-instances --instance-ids $INSTANCE_ID --profile my0p3nvpn >> instance-details.json
 INSTANCE_PUBLIC_IP=$(cat instance-details.json | jq -r '.Reservations[0].Instances[0].PublicIpAddress')
 echo "INSTANCE_PUBLIC_IP: $INSTANCE_PUBLIC_IP"
 rm instance-details.json
