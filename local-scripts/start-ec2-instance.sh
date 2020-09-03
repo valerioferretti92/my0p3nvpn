@@ -36,4 +36,4 @@ rm instance-details.json
 
 rm -f ~/.ssh/known_hosts
 echo "The machine is ready to be sshed into!"
-echo "Command: ssh ubuntu@$INSTANCE_PUBLIC_IP -i ~/.aws/privatekeys/$KEY_PAIR_NAME.pem"
+echo "Command: ssh ubuntu@$INSTANCE_PUBLIC_IP -i ~/.aws/my0p3nvpnkeys/$KEY_PAIR_NAME.pem"
