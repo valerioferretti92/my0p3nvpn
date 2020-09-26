@@ -37,7 +37,6 @@ print_subsection_title() {
 print_section_title "Installing and configure project dependencies"
 print_subsection_title "Updating and upgrading system"
 sudo apt -y update
-sudo apt -y upgrade
 
 print_subsection_title "Installing docker.io"
 sudo apt -y install docker.io
