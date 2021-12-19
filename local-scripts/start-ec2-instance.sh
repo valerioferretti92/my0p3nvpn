@@ -19,6 +19,8 @@ case $REGION in
         AMI_ID=ami-06a72c0e11b785451;;
     "us-east-1")
         AMI_ID=ami-0817d428a6fb68645;;
+    "eu-west-3")
+        AMI_ID=ami-0f7cd40eac2214b37;;
     *)
         echo "[ERROR]: It was not possible to get an AMI ID for launching your instance. Check region / AMI DI association"
         exit;;

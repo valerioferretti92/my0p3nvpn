@@ -4,17 +4,18 @@
 #!/bin/bash
 set -e
 
-if [ -z "$1" ] || [ -z "$2" ]
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
 then
-    echo "Enter target email as \$1 and attachment file path as \$2"
+    echo "Enter target email as \$1, attachment file path as \$2 and user name as \$3"
     exit
 fi
 
 FROM=my0p3nvpn@gmail.com
 TO=$1
-SUBJECT="myopenvpn registration"
-BODY='<html><head></head><body><h3>Hello Valerio,</h3><p>the setup of your new user was completed successfully. It is time for you to enjoy your own (and long awaited) VPN server!</p><p>Have fun and keep on learning :-)</p></body></html>'
 FILEPATH=$2
+USARNAME=$3
+SUBJECT="myopenvpn registration"
+BODY="<html><head></head><body><h3>Hello $USERNAME,</h3><p>the setup of your new user was completed successfully. It is time for you to enjoy your own (and long awaited) VPN server!</p><p>Have fun and keep on learning :-)</p></body></html>"
 
 echo "Sending \"$(basename $FILEPATH)\" as email attachment..."
 

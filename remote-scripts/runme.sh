@@ -68,7 +68,7 @@ print_section_title "Configuring openvpn server"
 print_section_title "Registering user account"
 ./register-account.sh $ACCOUNT
 print_subsection_title "Sending credential file by email"
-./send-email.sh $EMAIL ../user-profiles/$ACCOUNT.ovpn
+./send-email.sh $EMAIL ../user-profiles/$ACCOUNT.ovpn $ACCOUNT
 
 print_section_title "Starting openvpn container"
 ./start.sh
